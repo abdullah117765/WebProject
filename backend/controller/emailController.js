@@ -1,20 +1,22 @@
 const nodemailer = require('nodemailer');
-
+const Email = require('../model/emailModel.js');
 
 
 const sendEmail = async (req, res) => {
     try {
-      const { to, subject, text } = req.body;
-  
+       sender1=req.body.sender
+       recipient1=req.body.recipient
+       subject1=req.body.subject
+       text1 =req.body.text
       // Create a Nodemailer transporter and send the email
       // ...
   
       // Save the sent email to the database
       const email = new Email({
-        sender: 'your-email@gmail.com',
-        recipient: to,
-        subject,
-        text,
+        sender: sender1,
+        recipient: recipient1,
+        subject :subject1,
+        text: text1,
       });
       await email.save();
   

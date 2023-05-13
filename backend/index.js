@@ -8,6 +8,7 @@ const dotenv = require("dotenv").config();
 // const router1  = require("./Routes/JobRoutes.js");
  const teamMemberRoutes  = require("./routes/teamMemberRoutes.js");
 const requirementRoutes = require("./routes/requirementsRoute.js");
+const emailRoutes  = require("./routes/emailRoutes.js");
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -33,7 +34,7 @@ app.use(upload());
 
 
 app.use('/requirements', requirementRoutes);
- //app.use("/Jobs",authenticateToken, router1);
+ app.use("/email", emailRoutes);
  app.use("/teamMember", teamMemberRoutes);
 
 const jwt = require('jsonwebtoken');
