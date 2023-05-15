@@ -12,10 +12,12 @@ const createRequirement = async (req, res) => {
   }
 };
 
-// Controller function for getting all requirements
+// Controller function for getting all requirements by projectId
 const getAllRequirements = async (req, res) => {
+  const { projectid } = req.params;
+console.log("projectid"+ projectid)
   try {
-    const requirements = await Requirement.find();
+    const requirements = await Requirement.find({ projectid });
     res.json(requirements);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch requirements' });
@@ -102,19 +104,19 @@ const updateDeadline = async (req, res) => {
   
 // Controller function for uploading an attachment to a requirement
 const uploadAttachment = async (req, res) => {
-    try {
-      const requirement = await Requirement.findById(req.params.id);
-      if (requirement) {
-        requirement.attachments.push(req.body.attachment);
-        const updatedRequirement = await requirement.save();
-        res.json(updatedRequirement);
-      } else {
-        res.status(404).json({ error: 'Requirement not found' });
-      }
-    } catch (error) {
-      res.status(500).json({ error: 'Failed to upload attachment' });
+  try {
+    const requirement = await Requirement.findById(req.params.id);
+    if (requirement) {
+      requirement.attachments.push(req.body.attachment);
+      const updatedRequirement = await requirement.save();
+      res.json(updatedRequirement);
+    } else {
+      res.status(404).json({ error: 'Requirement not found' });
     }
-  };
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to upload attachment' });
+  }
+};
 
 
 

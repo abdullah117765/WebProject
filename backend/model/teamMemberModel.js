@@ -26,7 +26,14 @@ const teamMemberSchema = new mongoose.Schema({
   requirements: {
       type: Array,
     },
-  
+    projectid: {
+      type: String,
+      required: true,
+    },
+    student_role: {
+      type: String, 
+      default:" "  
+    }
 
 });
 

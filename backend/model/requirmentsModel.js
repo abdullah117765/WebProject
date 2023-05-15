@@ -15,6 +15,8 @@ const commentSchema = new mongoose.Schema({
 });
 
 const requirementSchema = new mongoose.Schema({
+
+  
   title: {
     type: String,
     required: true,
@@ -52,7 +54,15 @@ const requirementSchema = new mongoose.Schema({
   comments:{
         type: [commentSchema],
        
-  } 
+  } ,
+  writtenby: {//roll number
+    type: String,
+    required: true,
+  },
+  projectid: {// unique project id
+    type: String,
+    required: true,
+  }
 });
 
 const Requirement = mongoose.model('Requirement', requirementSchema);

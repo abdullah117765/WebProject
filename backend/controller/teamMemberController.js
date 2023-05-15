@@ -4,7 +4,7 @@ const TeamMember = require('../model/teamMemberModel.js');
 const addTeamMember = async (req, res) => {
   try {
     // Extract the member details from the request body
-    const { student_id, team_lead_id, student_name, student_email, student_status, requirements } = req.body;
+    const { student_id, team_lead_id, student_name, student_email, student_status, requirements,projectid ,student_role} = req.body;
 
     // Create a new team member instance using the TeamMember model
     const member = new TeamMember({
@@ -14,6 +14,8 @@ const addTeamMember = async (req, res) => {
       student_email,
       student_status,
       requirements,
+      projectid,
+      student_role,
     });
 
     // Save the new team member to the database
@@ -38,11 +40,12 @@ const deleteTeamMember = async (req, res) => {
     res.status(500).json({ error: 'Failed to delete team member' });
   }
 };
-
-// Controller function for viewing all team members
+// Controller function for getting all team members by project ID
 const getAllTeamMembers = async (req, res) => {
+  const { projectid } = req.params;
+
   try {
-    const teamMembers = await TeamMember.find();
+    const teamMembers = await TeamMember.find({ projectid });
     res.json(teamMembers);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch team members' });
@@ -70,7 +73,7 @@ const assignRoleToTeamMember = async (req, res) => {
     try {
       const teamMember = await TeamMember.findByIdAndUpdate(
         req.params.id,
-        { role: req.body.role },
+        { student_role: req.body.student_role },
         { new: true }
       );
       if (teamMember) {
