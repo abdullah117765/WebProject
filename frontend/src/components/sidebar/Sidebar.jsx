@@ -1,73 +1,66 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouse, faBook,faPeopleGroup,faFolder } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
+import {Data_Sidebar} from  "./Data_Sidebar.js"
 
-const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(false);
 
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
+function Sidebar() {
+  const [sidebar, setSidebar] = useState(false);
+
+  const showSidebar = () => setSidebar(!sidebar);
 
   return (
-    <React.Fragment>
-      <div className="fixed top-0 left-0 h-full w-64 bg-gray-800">
-        <div className="p-4">
-          {/* Sidebar content */}
-          <h1 className="text-white text-lg font-bold">Sidebar</h1>
-          {/* Add your sidebar content here */}
-          <ul className="mt-4">
-            <li>
-              <button
-                className="flex items-center text-white hover:bg-gray-700 px-2 py-1 rounded"
-                onClick={toggleDropdown}
-              >
-                <span>Menu</span>
-                <svg
-                  className={`ml-auto h-4 w-4 transform ${isOpen ? 'rotate-180' : 'rotate-0'}`}
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M6 8l4.586-4.586a2 2 0 012.828 0L18 8h-2.586l-3.293-3.293a1 1 0 00-1.414 0L6.586 8H6zm0 4l4.586 4.586a2 2 0 002.828 0L18 12h-2.586l-3.293 3.293a1 1 0 01-1.414 0L6.586 12H6z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button>
-              {isOpen && (
-                <ul className="mt-2">
-                  <li>
-                    <a
-                      href="#"
-                      className="block text-white hover:bg-gray-700 px-2 py-1 rounded"
-                    >
-                      Dropdown Item 1
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="block text-white hover:bg-gray-700 px-2 py-1 rounded"
-                    >
-                      Dropdown Item 2
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="block text-white hover:bg-gray-700 px-2 py-1 rounded"
-                    >
-                      Dropdown Item 3
-                    </a>
-                  </li>
-                </ul>
-              )}
+    <>
+     
+        <div className='navbar flex items-center bg-blue-500'>
+          <Link to='#' className='menu-bars p-4'>
+            <faBook onClick={showSidebar} />
+          </Link>
+        </div>
+        <div className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+          <ul className='nav-menu-items' onClick={showSidebar}>
+            <li className='navbar-toggle'>
+              <Link to='#' className='menu-bars'>
+                <faBook />
+              </Link>
             </li>
+            {Data_Sidebar.map((item, index) => {
+              if (item.subMenu) {
+                return (
+                  <li key={index} className={item.cName}>
+                    <Link to={item.path} className="flex items-center py-2 px-4">
+                      {item.icon}
+                      <span className="ml-2">{item.title}</span>
+                    </Link>
+                    <ul className='sub-menu-items'>
+                      {item.subMenu.map((subItem, subIndex) => (
+                        <li key={subIndex} className={subItem.cName}>
+                          <Link to={subItem.path} className="flex items-center py-2 px-4">
+                            {subItem.icon}
+                            <span className="ml-2">{subItem.title}</span>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                );
+              } else {
+                return (
+                  <li key={index} className={item.cName}>
+                    <Link to={item.path} className="flex items-center py-2 px-4">
+                      {item.icon}
+                      <span className="ml-2">{item.title}</span>
+                    </Link>
+                  </li>
+                );
+              }
+            })}
           </ul>
         </div>
-      </div>
-    </React.Fragment>
+     
+    </>
   );
-};
+}
 
 export default Sidebar;
