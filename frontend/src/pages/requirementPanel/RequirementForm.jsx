@@ -44,6 +44,14 @@ const Form = () => {
     };
   
     return (
+      <div className='bg-zinc-200 h-full'>
+
+
+      <div className="container  w-full  h-16   pt-7 bg-zinc-100">
+      <h1 className='ml-4 text-2xl mb-3 text-blue-300'> Requirement Form</h1>
+        <p className='ml-4 text-slate-700  '>"Website / Products  / Category"</p>
+      </div>
+   
         <div className="container mx-auto py-8">
           <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
           <SelectInput
@@ -95,6 +103,7 @@ const Form = () => {
               Submit
             </button>
           </form>
+        </div>
         </div>
       );
     };

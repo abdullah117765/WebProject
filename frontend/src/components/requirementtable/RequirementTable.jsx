@@ -1,9 +1,11 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit,faTrash, faLocationArrow,faPaperclip  } from '@fortawesome/free-solid-svg-icons';
 
 const RequirementTable = ({ data, onEdit, onAttachment, onDelete, onSubmit }) => {
   return (
-    <table className="min-w-full divide-y divide-gray-200">
-      <thead className="bg-gray-50">
+    <table className="min-w-full divide-y divide-gray-200  ">
+      <thead className="bg-gray-300">
         <tr>
           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
             Deadline
@@ -70,12 +72,12 @@ const RequirementTable = ({ data, onEdit, onAttachment, onDelete, onSubmit }) =>
                 className="text-indigo-600 hover:text-indigo-900 mr-2"
                 onClick={() => onEdit(index)}
               >
-                Edit
+                <FontAwesomeIcon icon={faEdit} />
               </button>
               <label
                 className="text-indigo-600 hover:text-indigo-900 mr-2 cursor-pointer"
               >
-                Browse
+               <FontAwesomeIcon icon={faPaperclip} />
                 <input
                   type="file"
                   className="hidden"
@@ -86,13 +88,13 @@ const RequirementTable = ({ data, onEdit, onAttachment, onDelete, onSubmit }) =>
                 className="text-red-600 hover:text-red-900 mr-2"
                 onClick={() => onDelete(index)}
               >
-                Delete
+               <FontAwesomeIcon icon={faTrash} />
               </button>
               <button
                 className="text-green-600 hover:text-green-900"
                 onClick={() => onSubmit(index)}
               >
-                Submit
+                <FontAwesomeIcon icon={faLocationArrow} />
               </button>
             </td>
           </tr>

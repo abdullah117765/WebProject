@@ -1,8 +1,6 @@
 import React, {useState} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
-
 
 
 const SidebarItem= (Props)=>{
@@ -14,7 +12,7 @@ const SidebarItem= (Props)=>{
         <>
         <li className=" text-white hover:bg-gray-700"   onClick={() => setIsSubmenuOpen(!isSubmenuOpen)} >
         <span className="p-3"> {Props.symbol}</span>
-        {Props.name}
+        <a href={Props.path}>{Props.name}</a>
         {Props.submenu? (<FontAwesomeIcon className="mx-2"  icon={faCaretDown} />): ""}
 
      </li>
@@ -22,8 +20,8 @@ const SidebarItem= (Props)=>{
      {Props.submenu ? (
          
      isSubmenuOpen && (<ul className="ml-4 mt-2 ">
-       {Props.submenu.map(( item) => (
-         <li className="py-1  text-white hover:bg-gray-700 ">{item}</li>
+       {Props.submenu.map(( item,index) => (
+         <li key={index} className="py-1  text-white hover:bg-gray-700 "><a href={Props.submenupath[index]}>{Props.submenusymbol[index]}  {item}</a></li>
        ))}
      </ul>)
 
@@ -36,3 +34,6 @@ const SidebarItem= (Props)=>{
 
 
 export default SidebarItem;
+
+
+

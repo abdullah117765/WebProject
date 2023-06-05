@@ -1,115 +1,91 @@
 import React, { useState } from 'react';
 
-const Form = () => {
-  const [title, setTitle] = useState('');
-  const [priority, setPriority] = useState('');
-  const [status, setStatus] = useState('');
-  const [deadline, setDeadline] = useState('');
-  const [projectId, setProjectId] = useState('');
-  const [comment, setComment] = useState('');
-  const [attachment, setAttachment] = useState('');
+// Sample table data
+const tableData = [
+  { deadline: '2023-06-10', role: 'Manager', assignedTo: 'John', title: 'Important Task', priority: 'High' },
+  { deadline: '2023-06-15', role: 'Developer', assignedTo: 'Alice', title: 'Fix Bugs', priority: 'Medium' },
+  { deadline: '2023-06-20', role: 'Manager', assignedTo: 'Bob', title: 'Meeting Preparation', priority: 'High' },
+  { deadline: '2023-06-25', role: 'Tester', assignedTo: 'Jane', title: 'Test Cases Execution', priority: 'Low' },
+];
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Perform form submission logic here
+const TableComponent = () => {
+  const [filteredData, setFilteredData] = useState(tableData);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedRole, setSelectedRole] = useState('All');
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleRoleChange = (event) => {
+    setSelectedRole(event.target.value);
+  };
+
+  const filterData = () => {
+    let filtered = tableData;
+
+    if (selectedRole !== 'All') {
+      filtered = filtered.filter((item) => item.role === selectedRole);
+    }
+
+    if (searchQuery !== '') {
+      filtered = filtered.filter((item) =>
+        item.title.toLowerCase().startsWith(searchQuery.toLowerCase())
+      );
+    }
+
+    setFilteredData(filtered);
   };
 
   return (
-    <div className="container mx-auto py-8">
-      <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
-        <div className="mb-4">
-          <label htmlFor="title" className="block mb-2 font-semibold">
-            Title
-          </label>
-          <input
-            type="text"
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="priority" className="block mb-2 font-semibold">
-            Priority
-          </label>
-          <input
-            type="text"
-            id="priority"
-            value={priority}
-            onChange={(e) => setPriority(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="status" className="block mb-2 font-semibold">
-            Status
-          </label>
-          <input
-            type="text"
-            id="status"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="deadline" className="block mb-2 font-semibold">
-            Deadline
-          </label>
-          <input
-            type="text"
-            id="deadline"
-            value={deadline}
-            onChange={(e) => setDeadline(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="projectId" className="block mb-2 font-semibold">
-            Project ID
-          </label>
-          <select
-            id="projectId"
-            value={projectId}
-            onChange={(e) => setProjectId(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
-          >
-            <option value="">Select Project ID</option>
-            {/* Add options dynamically based on your project data */}
-          </select>
-        </div>
-        <div className="mb-4">
-          <label htmlFor="comment" className="block mb-2 font-semibold">
-            Comment
-          </label>
-          <textarea
-            id="comment"
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
-          ></textarea>
-        </div>
-        <div className="mb-4">
-          <label htmlFor="attachment" className="block mb-2 font-semibold">
-            Attachment
-          </label>
-          <input
-            type="file"
-            id="attachment"
-            onChange={(e) => setAttachment(e.target.files[0])}
-            className="p-2"
-          />
-        </div>
-        <button
-          type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Submit
-        </button>
-      </form>
+    <div>
+      <div>
+        <label htmlFor="roleFilter">Filter by Role:</label>
+        <select id="roleFilter" value={selectedRole} onChange={handleRoleChange}>
+          <option value="All">All</option>
+          <option value="Manager">Manager</option>
+          <option value="Developer">Developer</option>
+          <option value="Tester">Tester</option>
+        </select>
+      </div>
+
+      <div>
+        <label htmlFor="searchInput">Search by Title:</label>
+        <input
+          id="searchInput"
+          type="text"
+          value={searchQuery}
+          onChange={handleSearchChange}
+          placeholder="Search..."
+        />
+      </div>
+
+      <button onClick={filterData}>Apply Filters</button>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Deadline</th>
+            <th>Role</th>
+            <th>Assigned To</th>
+            <th>Title</th>
+            <th>Priority</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredData.map((item, index) => (
+            <tr key={index}>
+              <td>{item.deadline}</td>
+              <td>{item.role}</td>
+              <td>{item.assignedTo}</td>
+              <td>{item.title}</td>
+              <td>{item.priority}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
 
-export default Form;
+export default TableComponent;

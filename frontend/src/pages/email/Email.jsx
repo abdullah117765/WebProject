@@ -1,104 +1,36 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import React from 'react';
+import EmailList from '../../components/emailcard/EmailList';
 
-const EmailForm = () => {
-  const [recipientEmail, setRecipientEmail] = useState('');
-  const [subject, setSubject] = useState('');
-  const [message, setMessage] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
-  const [status, setStatus] = useState('');
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      await axios.post('/send-email', {
-        recipientEmail,
-        subject,
-        message,
-      });
-      setStatus('Email sent successfully');
-      // Handle success - show a success message to the user
-    } catch (error) {
-      console.log('Error sending email:', error);
-      setStatus('Error sending email');
-      // Handle error - show an error message to the user
-    }
-  };
-
-  const handleComposeClick = () => {
-    setIsOpen(true);
-  };
-
-  const handleCloseClick = () => {
-    setIsOpen(false);
-  };
+const EmailPage = () => {
+  const emails = [
+    {
+      sender: 'axiomshah@gmail.com',
+      subject: 'Requirement error',
+      content: 'With respect it is stated that there have been some mistake regarding the requriements that you have provided to us. So it would be appropriate if you meet me tommorrow at my place',
+    },
+    {
+      sender: 'i200457@nu.edu.pk',
+      subject: 'Meeting Reminder',
+      content: 'Just a reminder about the meeting tomorrow.',
+    },
+    // Add more emails here
+  ];
 
   return (
-    <div className="fixed bottom-4 right-4  w-96">
-      {!isOpen && (
-        <button
-          className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700"
-          onClick={handleComposeClick}
-        >
-          Compose
-        </button>
-      )}
+    <div className='bg-zinc-200 h-full'>
 
-      {isOpen && (
-        
-        <div className="max-w-lg mx-auto my-4 p-4 border rounded bg-white">
-          <div className="flex justify-between">
-          <h2 className="text-lg font-semibold">New Message</h2>
-          <button onClick={handleCloseClick}>
-          <FontAwesomeIcon icon={faTimes} className="text-gray-400 hover:text-gray-600 mb-7" />
-        </button>
-          </div>
-          
-          <div className="mb-4 ">
-         
-            <input
-               
-              className="w-full border-none outline-none text-lg  mb-2  "
-              type="email"
-              placeholder="To"
-              value={recipientEmail}
-              onChange={(e) => setRecipientEmail(e.target.value)}
-            />
-          </div>
-          <div className="mb-4">
-            <input
-              className="w-full border-none outline-none text-lg  mb-2"
-              type="text"
-              placeholder="Subject"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-            />
-          </div>
-          <div className="mb-4  ">
-            <textarea
-              className="w-full border-none outline-none resize-none text-lg   "
-              rows="8"
-              placeholder="Compose email"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            ></textarea>
-          </div>
-          {status && <div className="text-red-500 mb-4">{status}</div>}
-          <div className="flex justify-end">
-            <button
-              className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700"
-              onClick={handleSubmit}
-            >
-              Send
-            </button>
-          </div>
-        </div>
-      )}
+<div className="container w-full h-16 pt-7 bg-zinc-100">
+        <h1 className='ml-4 text-2xl mb-3 text-blue-300'>Requirement Manage</h1>
+        <p className='ml-4 text-slate-700'>"Website / Products / Category"</p>
+      </div>
+
+
+
+    <div className="container mx-auto pt-24 ">
+      <EmailList emails={emails} />
+    </div>
     </div>
   );
 };
 
-export default EmailForm;
+export default EmailPage;
