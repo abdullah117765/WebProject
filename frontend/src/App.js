@@ -14,7 +14,9 @@ import ManageRequirements from './pages/managerequirements/ManageRequirements';
 import EmailPage from './pages/email/Email.jsx'
 import Navbar from './components/navbar/Navbar';
  import MemberPage from "./pages/membermanage/MemberPage.jsx"
+ import ViewFYPEvaluationPage from "./pages/evaluation/FypEvaluation.jsx"
 import { ToastContainer } from 'react-toastify';
+import Teammates from './pages/managemember/Teammates';
 import 'react-toastify/dist/ReactToastify.css';
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
         <Route path="/table" element={<ManageRequirements  />}/>
         <Route path="/email" element={<EmailPage />}/>
         <Route path="/team" element={<MemberPage/>}/>
+        <Route path="/manageteam" element={<Teammates/>}/>
+        <Route path="/evaluation" element={<ViewFYPEvaluationPage/>}/>
       </Routes>
       </div>
       </div>
