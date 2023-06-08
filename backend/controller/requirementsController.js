@@ -2,20 +2,48 @@ const Requirement = require('../model/requirmentsModel.js');
 
 // Controller function for creating a new requirement
 const createRequirement = async (req, res) => {
-  try {
-    console.log(req.body)
-    const requirement = await Requirement.create(req.body);
-    
+  // try {
+let formData;
+  if(req.body.comments){
+    formData = {
+      title: req.body.title,
+      priority: req.body.priority,
+      assignedTo: JSON.parse(req.body.assignedTo),
+      status: req.body.status,
+      description: req.body.description,
+      deadline: req.body.deadline,
+      attachments: req.body.attachments,
+      comments: JSON.parse(req.body.comments),
+      writtenby: req.body.writtenby,
+      projectid: req.body.projectid
+    };
+
+   }else{
+    formData = {
+      title: req.body.title,
+      priority: req.body.priority,
+      assignedTo: JSON.parse(req.body.assignedTo),
+      status: req.body.status,
+      description: req.body.description,
+      deadline: req.body.deadline,
+      attachments: req.body.attachments,
+      writtenby: req.body.writtenby,
+      projectid: req.body.projectid
+    };
+   }
+
+    const requirement = await Requirement.create(formData);
     res.status(201).json(requirement);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to create requirement' });
-  }
+  // } catch (error) {
+  //   res.status(500).json({ error: 'Failed to create requirement' });
+  // }
 };
+
 
 // Controller function for getting all requirements by projectId
 const getAllRequirements = async (req, res) => {
   const { projectid } = req.params;
-console.log("projectid"+ projectid)
+  
   try {
     const requirements = await Requirement.find({ projectid });
     res.json(requirements);
@@ -27,6 +55,7 @@ console.log("projectid"+ projectid)
 // Controller function for getting a single requirement by ID
 const getRequirementById = async (req, res) => {
   try {
+    console.log("projectid" + req.param.id)
     const requirement = await Requirement.findById(req.params.id);
     if (requirement) {
       res.json(requirement);

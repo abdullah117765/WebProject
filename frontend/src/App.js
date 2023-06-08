@@ -5,8 +5,7 @@ import {
   Route,     //npm install react-router-dom
 } from "react-router-dom"; 
 import React from 'react';
-// import TeamLeadPage from "./pages/teamLeadPanel/TeamLeadPage.jsx"
-// import Home from "./pages/home/Home.jsx"
+
 import Sidebar from "./pages/home/Sidebar.jsx"
 import Practice from './Practice.jsx';
 import RequirementForm from "./pages/requirementPanel/RequirementForm.jsx"
@@ -30,8 +29,8 @@ function App() {
         {/* <Route path="/" element={<TeamLeadPage/>}/> */}
       
 
-        <Route path="/p" element={<Practice/>}/>
-        <Route path="/" element={<RequirementForm />}/>
+        
+        <Route path="/addreq" element={<RequirementForm />}/>
         <Route path="/table" element={<ManageRequirements  />}/>
         <Route path="/email" element={<EmailPage />}/>
         <Route path="/team" element={<MemberPage/>}/>

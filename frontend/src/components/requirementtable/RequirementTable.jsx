@@ -3,6 +3,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit,faTrash, faLocationArrow,faPaperclip  } from '@fortawesome/free-solid-svg-icons';
 
 const RequirementTable = ({ data, onEdit, onAttachment, onDelete, onSubmit }) => {
+
+  const formatDate = (dateTimeString) => {
+    const dateOnly = dateTimeString.split("T")[0];
+    return dateOnly;
+  };
+
+  
   return (
     <table className="min-w-full divide-y divide-gray-200  ">
       <thead className="bg-gray-300">
@@ -11,7 +18,7 @@ const RequirementTable = ({ data, onEdit, onAttachment, onDelete, onSubmit }) =>
             Deadline
           </th>
           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-            Role
+            Written By
           </th>
           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
             Assigned to
@@ -32,12 +39,15 @@ const RequirementTable = ({ data, onEdit, onAttachment, onDelete, onSubmit }) =>
       </thead>
       <tbody className="bg-white divide-y divide-gray-200">
         {data.map((row, index) => (
+
+          
           <tr
             key={index}
             className={`${index % 2 === 0 ? 'bg-gray-100' : 'bg-white'} hover:bg-gray-200 transition-colors duration-300`}
           >
-            <td className="px-6 py-4 whitespace-wrap">{row.deadline}</td>
-            <td className="px-6 py-4 whitespace-wrap">{row.role}</td>
+         
+            <td className="px-6 py-4 whitespace-wrap">{formatDate(row.deadline)}</td>
+            <td className="px-6 py-4 whitespace-wrap">{row.writtenby}</td>
             <td className="px-6 py-4 whitespace-wrap">{row.assignedTo}</td>
             <td className="px-6 py-4 whitespace-wrap">{row.title}</td>
             <td className="px-6 py-4 whitespace-wrap">{row.priority}</td>

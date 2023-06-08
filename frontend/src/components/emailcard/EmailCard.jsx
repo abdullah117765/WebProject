@@ -35,12 +35,13 @@ const EmailCard = ({ sender, subject, content }) => {
         </button>
       </div>
       {showReplyModal && (
-        <ReplyModal
-          sender={sender}
-          onCancel={handleCancelReply}
-          onReply={handleReply}
-        />
-      )}
+  <ReplyModal
+    sender={sender}
+    subject={subject} // Pass the subject prop here
+    onCancel={handleCancelReply}
+    onReply={handleReply}
+  />
+)}
     </div>
   );
 };

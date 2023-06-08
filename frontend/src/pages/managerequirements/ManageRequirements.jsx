@@ -1,58 +1,64 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import RequirementTable from '../../components/requirementtable/RequirementTable';
+import EditRequirementSidebar from '../../components/requirementtable/EditRequirementSidebar';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const MyComponent = () => {
-  const data = [
-    {
-      deadline: '2023-06-30',
-      role: 'Team Member',
-      assignedTo: 'Ali Hamza',
-      title: 'you have to display all the users ',
-      priority: 'High',
-      status: 'In Progress'
-    },
-    {
-      deadline: '2023-06-30',
-      role: 'Team Member',
-      assignedTo: 'Mahad khan',
-      title: 'delete the req ',
-      priority: 'Low',
-      status: 'Pending'
-    },
-    {
-      deadline: '2023-06-30',
-      role: 'Team Lead',
-      assignedTo: 'Mian Abdullah',
-      title: 'update the customers ',
-      priority: 'Low',
-      status: 'Completed'
-    },
-    {
-      deadline: '2023-06-30',
-      role: 'Team Lead',
-      assignedTo: 'Ali Hamza',
-      title: 'display the files ',
-      priority: 'Low',
-      status: 'Pending'
-    },
-    // Add more rows as needed
-  ];
 
+  const [data, setRequirements] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterPriority, setFilterPriority] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
 
+  const [index, setIndex] = useState(null);
+  const [showSidebar, setShowSidebar] = useState(false);
+  const [selectedRequirement, setSelectedRequirement] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3001/requirements/getRequirements/${"Project1"}`); // intially it will be hardcoded as login is nto implemented yet
+        setRequirements(response.data);
+      } catch (error) {
+        toast.error('Failed to fetch requirements');
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const handleEdit = (index) => {
-    // Handle edit button click
+    setSelectedRequirement(filteredData[index]);
+    setShowSidebar(true);
+    setIndex(index); // Add this line to store the index value
   };
+  
+  const handleUpdateRequirement = (updatedRequirement) => {
+    const updatedData = [...filteredData];
+    updatedData[index] = updatedRequirement;
+    setSelectedRequirement(null);
+    setShowSidebar(false);
+  };
+ 
 
   const handleAttachment = (index) => {
     // Handle attachment button click
   };
 
-  const handleDelete = (index) => {
-    // Handle delete button click
+  const handleDelete = async (index) => {
+    const requirement = filteredData[index];
+    try {
+      await axios.delete(`http://localhost:3001/requirements/deleteRequirement/${requirement._id}`);
+      const updatedData = [...filteredData];
+      updatedData.splice(index, 1);
+      setRequirements(updatedData);
+      toast.success('Requirement deleted successfully');
+    } catch (error) {
+      toast.error('Failed to delete requirement');
+    }
   };
+  
 
   const handleSubmit = (index) => {
     // Handle submit button click
@@ -89,7 +95,7 @@ const MyComponent = () => {
 
       <div className="container w-full h-16 pt-7 bg-zinc-100">
         <h1 className='ml-4 text-2xl mb-3 text-blue-300'>Requirement Manage</h1>
-        <p className='ml-4 text-slate-700'>"Website / Products / Category"</p>
+        <p className='ml-4 text-slate-700'>Home / Requirements / Manage</p>
       </div>
 
       <div className='max-w-6xl ml-64 mt-20'>
@@ -144,6 +150,14 @@ const MyComponent = () => {
           onDelete={handleDelete}
           onSubmit={handleSubmit}
         />
+{showSidebar && selectedRequirement && (
+  <EditRequirementSidebar
+    requirement={selectedRequirement}
+    onUpdate={handleUpdateRequirement}
+    onClose={() => setShowSidebar(false)} // Add this prop
+  />
+)}
+
       </div>
     </div>
   );

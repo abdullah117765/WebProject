@@ -5,10 +5,13 @@ const cors = require("cors");
 const dotenv = require("dotenv").config();
 
 
+
 // const router1  = require("./Routes/JobRoutes.js");
  const teamMemberRoutes  = require("./routes/teamMemberRoutes.js");
 const requirementRoutes = require("./routes/requirementsRoute.js");
 const emailRoutes  = require("./routes/emailRoutes.js");
+const evalRoutes = require("./routes/evaluationRoutes.js")
+
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -36,6 +39,8 @@ app.use(upload());
 app.use('/requirements', requirementRoutes);
  app.use("/email", emailRoutes);
  app.use("/teamMember", teamMemberRoutes);
+app.use("/evaluation", evalRoutes);
+
 
 const jwt = require('jsonwebtoken');
 

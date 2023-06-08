@@ -8,12 +8,12 @@ const EmailList = ({ emails }) => {
 
   // Filter and sort the emails based on the current search, sorting, and filtering options
   const filteredEmails = emails.filter((email) =>
-    email.sender.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    email.subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    email.content.toLowerCase().includes(searchQuery.toLowerCase())
-  ).filter((email) =>
-    filterBy === 'all' || (filterBy === 'unread' && !email.read) || (filterBy === 'read' && email.read)
-  ).sort((a, b) => {
+  (email.sender?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  email.subject?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  email.content?.toLowerCase().includes(searchQuery.toLowerCase()))
+).filter((email) =>
+  filterBy === 'all' || (filterBy === 'unread' && !email.read) || (filterBy === 'read' && email.read)
+).sort((a, b) => {
     if (sortBy === 'date') {
       return new Date(b.date) - new Date(a.date);
     } else if (sortBy === 'sender') {
@@ -69,7 +69,7 @@ const EmailList = ({ emails }) => {
           key={index}
           sender={email.sender}
           subject={email.subject}
-          content={email.content}
+          content={email.text}
         />
       ))}
     </div>

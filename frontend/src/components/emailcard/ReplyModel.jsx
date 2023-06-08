@@ -1,11 +1,26 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
-const ReplyModal = ({ sender, onCancel, onReply }) => {
+
+const ReplyModal = ({ sender, subject, onCancel, onReply }) => {
   const [replyContent, setReplyContent] = useState('');
 
-  const handleReply = () => {
-    onReply(replyContent);
-    setReplyContent('');
+  const handleReply = async () => {
+    try {
+      await axios.post('http://localhost:3001/email/send', {
+        sender: 'i200457@nu.edu.pk',
+        recipientEmail: sender,
+        subject: `RE: ${subject}`,
+        message: replyContent,
+      });
+      onReply(replyContent);
+      setReplyContent('');
+      toast.success('Email sent Successfully');
+    } catch (error) {
+      console.log('Error sending email:', error);
+      toast.error('Error sending email:', error);
+    }
   };
 
   const handleCancel = () => {

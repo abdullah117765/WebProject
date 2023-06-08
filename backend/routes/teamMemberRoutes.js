@@ -2,11 +2,14 @@ const express = require('express');
 const router = express.Router();
 const teamMemberController = require('../controller/teamMemberController.js');
 
+
+
+
 // Add a team member
 router.post('/addMember', teamMemberController.addTeamMember);
 
 // Delete a team member
-router.delete('/deleteMember/:id', teamMemberController.deleteTeamMember);
+router.delete('/deleteMember/:projectid/:student_id', teamMemberController.deleteTeamMember);
 
 // Get all team members by project id
 router.get('/getMembers/:projectid', teamMemberController.getAllTeamMembers);

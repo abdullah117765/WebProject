@@ -71,6 +71,8 @@ const MemberPage = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [memberSearch, setMemberSearch] = useState(null);
   
+
+
     const handleViewDetails = (member) => {
       setSelectedMember(member);
     };

@@ -4,7 +4,6 @@ const teamMemberSchema = new mongoose.Schema({
   student_id: {
     type: String,
     required: true,
-    unique: true,
   },
   team_lead_id: {
     type: String,
@@ -32,8 +31,12 @@ const teamMemberSchema = new mongoose.Schema({
     },
     student_role: {
       type: String, 
-      default:" "  
-    }
+      default:"Member"  
+    },
+
+    // image: {
+    //   type: String,
+    // },
 
 });
 

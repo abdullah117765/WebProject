@@ -1,8 +1,43 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+
 
 const MemberCard = ({ member, onViewDetails }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  
+
+
+  const addTeammate = (member) => {
+    const formData = new FormData();
+    formData.append('student_id', member.userId.toString());
+    formData.append('team_lead_id', '20I-0457');
+    formData.append('student_name', member.name);
+    formData.append('student_email', member.email);
+    formData.append('student_status', 'active');
+    formData.append('requirements', []);
+    formData.append('projectid', 'Project1');
+    formData.append('student_role', 'Member');
+    formData.append('avatar',  member.avatar );
+    
+    axios
+      .post('http://localhost:3001/teamMember/addMember', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((response) => {
+        toast.success('Teammate added successfully!');
+      })
+      .catch((error) => {
+        toast.error('Failed to add teammate. Please try again.');
+      });
+  };
+  
+
+
+
+
 
   const handleViewDetails = () => {
     onViewDetails(member);
@@ -13,9 +48,9 @@ const MemberCard = ({ member, onViewDetails }) => {
   };
 
   const handleConfirmAdd = () => {
-    // Perform the necessary actions to add the teammate
+    addTeammate(member);
     setShowConfirmation(false);
-    setShowSuccessMessage(true);
+    
     // Additional logic to handle adding the teammate goes here
   };
 
@@ -73,19 +108,7 @@ const MemberCard = ({ member, onViewDetails }) => {
           </div>
         </div>
       )}
-      {showSuccessMessage && (
-        <div className="fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="max-w-md mx-auto bg-white rounded-lg p-6">
-            <p className="text-gray-800">Teammate {member.name} has been added successfully!</p>
-            <button
-              className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded mt-4 focus:outline-none"
-              onClick={() => setShowSuccessMessage(false)}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
+     
     </div>
   );
 };

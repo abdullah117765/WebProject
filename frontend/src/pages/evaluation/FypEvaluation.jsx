@@ -1,40 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUsers, faUserGraduate, faClipboardList, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
-
 
  // formulat to create the overall socre in case you dont know here 
  // overallScore = (weight1 * score1 + weight2 * score2 + ... + weightN * scoreN) / (weight1 + weight2 + ... + weightN)
 
-const ViewFYPEvaluationPage = () => {
-  const fypProject = {
-    project_id: "1",
-    title: "Sample FYP Project",
-    description: "This is a sample FYP project.",
-    teamMembers: ["John Doe", "Jane Smith"],
-    teamlead_id: "2",
-    supervisor: "Dr. Robert Johnson",
-    evaluationCriteria: [
-      { name: "Innovation", weight: 0.2, score: 8 },
-      { name: "Technical Complexity", weight: 0.3, score: 7 },
-      { name: "Implementation", weight: 0.2, score: 9 },
-      { name: "Documentation", weight: 0.15, score: 8 },
-      { name: "Collaboration", weight: 0.1, score: 9 },
-      { name: "Timeliness", weight: 0.05, score: 7 },
-    ],
-    presentation: {
-      content: 8,
-      delivery: 9,
-      visuals: 7,
-    },
-    innovation: 8,
-    technicalComplexity: 7,
-    implementation: 9,
-    documentation: 8,
-    collaboration: 9,
-    timeliness: 7,
-    overallScore: 8,
-  };
+
+  const ViewFYPEvaluationPage = () => {
+    const [fypProject, setFypProject] = useState(null);
+  
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get('http://localhost:3001/evaluation/geteval');
+          setFypProject(response.data);
+        } catch (error) { 
+          console.log('Error fetching data:', error);
+        }
+      };
+  
+      fetchData();
+    }, []);
+  
 
   if (!fypProject) {
     return (

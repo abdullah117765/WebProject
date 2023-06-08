@@ -3,8 +3,18 @@ const TeamMember = require('../model/teamMemberModel.js');
 // Controller function for adding a team member
 const addTeamMember = async (req, res) => {
   try {
-    // Extract the member details from the request body
+    //Extract the member details from the request body
     const { student_id, team_lead_id, student_name, student_email, student_status, requirements,projectid ,student_role} = req.body;
+
+//     console.log("image"+ req.files.image);
+//     const file= req.files.image;
+  
+//     // Use the mv() method to place the file somewhere on your server
+//     file.mv('./uploads\\' + file.name);
+//  const image=file.name;
+
+
+
 
     // Create a new team member instance using the TeamMember model
     const member = new TeamMember({
@@ -16,6 +26,7 @@ const addTeamMember = async (req, res) => {
       requirements,
       projectid,
       student_role,
+      // image
     });
 
     // Save the new team member to the database
@@ -30,7 +41,10 @@ const addTeamMember = async (req, res) => {
 // Controller function for deleting a team member
 const deleteTeamMember = async (req, res) => {
   try {
-    const teamMember = await TeamMember.findByIdAndDelete(req.params.id);
+    const {projectid,student_id} = req.params;
+   
+    const teamMember = await TeamMember.findOneAndDelete({ projectid, student_id });
+
     if (teamMember) {
       res.json({ message: 'Team member deleted successfully' });
     } else {
@@ -40,6 +54,7 @@ const deleteTeamMember = async (req, res) => {
     res.status(500).json({ error: 'Failed to delete team member' });
   }
 };
+
 // Controller function for getting all team members by project ID
 const getAllTeamMembers = async (req, res) => {
   const { projectid } = req.params;
@@ -47,10 +62,15 @@ const getAllTeamMembers = async (req, res) => {
   try {
     const teamMembers = await TeamMember.find({ projectid });
     res.json(teamMembers);
+    
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch team members' });
   }
 };
+
+
+
+
 
 // Controller function for finding one team member by ID
 const getTeamMemberById = async (req, res) => {
